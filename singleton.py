@@ -1,21 +1,23 @@
 
+class Singleton:
+    cls = None
+    instance = None
 
-def singleton(cls):
-    singleton_instances = {}
+    def __init__(self, cls):
+        self.cls = cls
+        self.instance = None
 
-    def get(*args, **kwargs):
-        if not singleton_instances.get(cls):
-            singleton_instances[cls] = cls(*args, **kwargs)
-        return singleton_instances[cls]
-
-    return get
+    def __call__(self, *args, **kwds):
+        if self.instance is None:
+            self.instance = self.cls(*args, **kwds)
+        return self.instance
 
 
-@singleton
+@Singleton
 class TestSingletonClass(object):
 
     def __init__(self):
         print('init')
-
+        
 a = TestSingletonClass()
 b = TestSingletonClass()
